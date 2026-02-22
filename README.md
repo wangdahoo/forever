@@ -14,65 +14,114 @@ AI agents struggle with complex, long-running tasks because:
 
 ## The Solution
 
-This framework implements a two-phase approach:
+Three specialized agents working together:
 
-### Phase 1: Initializer Agent
-Sets up the foundational environment:
-- Project scaffolding
-- Comprehensive feature list (`features.json`)
-- Development setup script (`init.sh`)
-- Progress tracking (`progress.md`)
+### Initializer Agent (Project Scaffolding)
+Sets up the foundational environment (one-time):
+- Next.js 16 + shadcn/ui project scaffolding
+- i18n (next-intl) with en/zh support
+- Dark/Light theme (next-themes)
+- Cloudflare Pages deployment config
+- Code quality tools (ESLint, Prettier, Commitlint, lint-staged, Husky)
 
-### Phase 2: Coding Agents
+### Sprint Agent (Feature Planning)
+Translates requirements into actionable features:
+- Analyzes user requirements
+- Breaks down into atomic, session-sized features
+- Creates sprint in `features.json` with acceptance criteria
+- Defines implementation order and dependencies
+
+### Coding Agent (Feature Implementation)
 Each session makes incremental progress:
-- Reviews previous work via git logs and progress.md
+- Reviews previous work via git logs and `progress.md`
 - Picks ONE feature to implement
 - Tests thoroughly end-to-end
 - Leaves clean, working code
 - Documents progress for next session
 
+## Workflow
+
+```
+┌─────────────────┐
+│  Initializer    │  ──>  Project scaffolding (one-time)
+└────────┬────────┘
+         │
+         v
+┌─────────────────┐
+│   Sprint Agent  │  <──  User provides requirements
+└────────┬────────┘
+         │         Generates feature list
+         v
+┌─────────────────┐
+│  Coding Agent   │  <──  Implements one feature per session
+└────────┬────────┘
+         │
+         │         Loop until sprint complete
+         v
+┌─────────────────┐
+│   Sprint Agent  │  <──  Next iteration
+└─────────────────┘
+```
+
 ## Quick Start
 
 ```bash
-# 1. Initialize a new project
-./agent-harness/scripts/init-project.sh "Your project description" web-app
+# 1. Initialize tracking files
+./agent-harness/scripts/init-project.sh "Your project description" "Project Name"
 
 # 2. Point your AI agent to AGENTS.md
-# The agent will read the instructions and begin work
+# The agent will read instructions and begin scaffolding
 
-# 3. Check status anytime
+# 3. After scaffolding, run Sprint Agent with your requirements
+# Example: "Add user authentication with email and social login"
+
+# 4. Check status anytime
 ./agent-harness/scripts/status.sh
 ```
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Framework | Next.js 16 (App Router, SSR) |
+| UI | shadcn/ui + Tailwind CSS |
+| i18n | next-intl (en/zh) |
+| Theme | next-themes (dark/light) |
+| Deployment | Cloudflare Pages |
+| Code Quality | ESLint, Prettier, Commitlint, lint-staged, Husky |
 
 ## Framework Structure
 
 ```
 .
 ├── AGENTS.md              # Main instructions for AI agents
-├── features.json          # Comprehensive feature list with status
+├── features.json          # Sprints and features with status
 ├── progress.md            # Session-by-session progress log
 ├── init.sh                # Development environment setup
 │
 └── agent-harness/
     ├── prompts/
-    │   ├── initializer.md # Prompt for first session
-    │   └── coder.md       # Prompt for subsequent sessions
+    │   ├── initializer.md # Initializer Agent prompt (scaffolding)
+    │   ├── sprint.md      # Sprint Agent prompt (planning)
+    │   └── coder.md       # Coding Agent prompt (implementation)
     ├── templates/
-    │   ├── features.json  # Template for feature list
+    │   ├── features.json  # Template for feature tracking
     │   ├── progress.md    # Template for progress log
     │   └── init.sh        # Template for setup script
     └── scripts/
-        ├── init-project.sh # Initialize a new project
+        ├── init-project.sh # Initialize tracking files
         └── status.sh       # Show current project status
 ```
 
 ## Key Principles
 
-1. **Incremental Progress** - One feature per session
+1. **One Feature Per Session** - Don't try to do too much
 2. **Always Working Code** - Never leave broken state
 3. **End-to-End Testing** - Verify as a user would
 4. **Frequent Commits** - Enable easy rollback
 5. **Documentation** - Future sessions need context
+6. **Use Translations** - All user-facing text via i18n
+7. **Theme Aware** - Test both dark and light modes
 
 ## Feature Status Lifecycle
 
@@ -82,19 +131,45 @@ pending → in_progress → completed
              blocked (if dependency issue)
 ```
 
+## Sprint Status Values
+
+- `planning` - Being defined by Sprint Agent
+- `in_progress` - Features being implemented
+- `completed` - All features done
+- `on_hold` - Paused for some reason
+
 ## Using with AI Agents
 
-When starting a new session, simply point your AI agent to:
+When starting a new session:
 
 ```
-Please read AGENTS.md and follow the instructions for the appropriate agent role.
+Please read AGENTS.md and follow the instructions.
 ```
 
 The agent will:
-1. Determine if it's an Initializer or Coding Agent
-2. Follow the appropriate protocol
+1. Determine the appropriate role (Initializer/Sprint/Coding)
+2. Follow the protocol for that role
 3. Make incremental, tested progress
 4. Document everything for the next session
+
+## Commands
+
+```bash
+npm run dev      # Start development server
+npm run build    # Production build
+npm run lint     # Run ESLint
+npm run format   # Run Prettier
+```
+
+## Git Commit Format
+
+```
+<type>(<scope>): <description>
+
+Feature: <feature-id>
+```
+
+Types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`, `style`
 
 ## References
 

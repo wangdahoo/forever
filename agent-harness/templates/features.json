@@ -2,24 +2,10 @@
   "project": {
     "name": "Project Name",
     "description": "Brief project description",
-    "tech_stack": [],
+    "tech_stack": ["next.js", "shadcn/ui", "typescript", "tailwind", "next-intl", "next-themes"],
     "created_at": ""
   },
-  "features": [
-    {
-      "id": "feat-001",
-      "category": "core",
-      "priority": "high",
-      "description": "Feature description",
-      "acceptance_criteria": [
-        "Criterion 1",
-        "Criterion 2"
-      ],
-      "status": "pending",
-      "dependencies": [],
-      "notes": ""
-    }
-  ],
+  "sprints": [],
   "metadata": {
     "version": "1.0.0",
     "last_updated": ""

@@ -2,30 +2,73 @@
 
 This file provides instructions for AI agents working on this project across multiple sessions.
 
+## Agent Types
+
+| Agent | Role | When Invoked |
+|-------|------|--------------|
+| **Initializer** | Project scaffolding | New project setup only |
+| **Sprint** | Feature planning | New sprint or requirement iteration |
+| **Coding** | Feature implementation | Each development session |
+
+## Workflow
+
+```
+┌─────────────────┐
+│  Initializer    │  ──>  Set up project scaffolding (one-time)
+└────────┬────────┘
+         │
+         v
+┌─────────────────┐
+│   Sprint Agent  │  <──  User provides requirements
+└────────┬────────┘
+         │         Generates feature list
+         v
+┌─────────────────┐
+│  Coding Agent   │  <──  Implements one feature per session
+└────────┬────────┘
+         │
+         │         Loop until sprint complete
+         v
+┌─────────────────┐
+│   Sprint Agent  │  <──  Next iteration
+└─────────────────┘
+```
+
 ## Quick Start
 
-### First Session (Initializer)
+### 1. Initial Setup (Initializer Agent)
 
-If `features.json` does not exist or is empty, you are the **Initializer Agent**.
+If `features.json` does not exist or project is empty:
 
-1. Read `agent-harness/prompts/initializer.md` for detailed instructions
-2. Set up the project structure
-3. Create comprehensive `features.json` with all features marked as "pending"
-4. Create `init.sh` to set up the development environment
-5. Initialize `progress.md` with session 0
-6. Create initial git commit
+1. Read `agent-harness/prompts/initializer.md`
+2. Create Next.js + shadcn project scaffolding
+3. Configure i18n, theme, Cloudflare deployment
+4. Set up code quality tools (ESLint, Prettier, Commitlint, lint-staged)
+5. Create initial `features.json` (minimal, no features yet)
+6. Create `progress.md` with session 0
+7. Initial git commit
 
-### Subsequent Sessions (Coding Agent)
+### 2. Sprint Planning (Sprint Agent)
 
-If `features.json` exists with features, you are the **Coding Agent**.
+When user provides new requirements:
 
-1. Read `agent-harness/prompts/coder.md` for detailed instructions
+1. Read `agent-harness/prompts/sprint.md`
+2. Analyze user requirements
+3. Break down into atomic features
+4. Add sprint to `features.json` with all features
+5. Update `progress.md` with sprint planning notes
+
+### 3. Development (Coding Agent)
+
+Each development session:
+
+1. Read `agent-harness/prompts/coder.md`
 2. **Always** start by:
    - Running `pwd` to confirm directory
    - Reading `progress.md` to understand recent work
-   - Reading `git log --oneline -10` to see recent commits
-   - Running `./init.sh` to verify the environment works
-3. Pick **ONE** pending high-priority feature from `features.json`
+   - Reading `git log --oneline -10`
+   - Running `npm run lint && npm run build`
+3. Pick **ONE** pending feature from current sprint
 4. Implement incrementally with frequent commits
 5. Test thoroughly before marking complete
 6. Update `progress.md` with session summary
@@ -35,26 +78,33 @@ If `features.json` exists with features, you are the **Coding Agent**.
 
 | File | Purpose | Who Updates |
 |------|---------|-------------|
-| `features.json` | List of all features with status | Initializer creates, Coding Agent updates status only |
+| `features.json` | Sprints and feature list with status | Sprint creates, Coding updates status |
 | `progress.md` | Session-by-session progress log | Every agent at end of session |
-| `init.sh` | Development environment setup | Initializer creates, can be extended |
+| `init.sh` | Development environment setup | Initializer creates |
 | `AGENTS.md` | This file - agent instructions | Rarely modified |
 
-## Critical Rules
+## Tech Stack
 
-1. **One Feature Per Session** - Don't try to implement multiple features
-2. **Always Leave Working Code** - Never end with broken tests or build
-3. **Test End-to-End** - Verify features work as a user would experience them
-4. **Commit Frequently** - Small, logical commits enable easy rollback
-5. **Document Decisions** - Future agents (new context) need to understand why
-6. **Don't Delete Features** - Only change status, never remove from `features.json`
+- **Framework**: Next.js 16 (App Router, SSR)
+- **UI**: shadcn/ui + Tailwind CSS
+- **i18n**: next-intl (en/zh)
+- **Theme**: next-themes (dark/light)
+- **Deployment**: Cloudflare Pages
+- **Code Quality**: ESLint, Prettier, Commitlint, lint-staged, Husky
 
-## Status Values
+## Feature Status Values
 
 - `pending` - Not started
 - `in_progress` - Currently being worked on
 - `completed` - Fully implemented and tested
 - `blocked` - Cannot proceed due to dependency or issue
+
+## Sprint Status Values
+
+- `planning` - Being defined by Sprint Agent
+- `in_progress` - Features being implemented
+- `completed` - All features done
+- `on_hold` - Paused for some reason
 
 ## Git Commit Format
 
@@ -66,9 +116,28 @@ If `features.json` exists with features, you are the **Coding Agent**.
 Feature: <feature-id>
 ```
 
-Types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`
+Types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`, `style`
+
+## Critical Rules
+
+1. **One Feature Per Session** - Don't try to implement multiple features
+2. **Always Leave Working Code** - Never end with broken tests or build
+3. **Test End-to-End** - Verify features work as a user would experience them
+4. **Commit Frequently** - Small, logical commits enable easy rollback
+5. **Document Decisions** - Future agents (new context) need to understand why
+6. **Don't Delete Features** - Only change status, never remove from `features.json`
+7. **Use Translations** - All user-facing text must go through i18n
+8. **Theme Aware** - All UI must work in both dark and light modes
+
+## Commands
+
+```bash
+npm run dev      # Start development server
+npm run build    # Production build
+npm run lint     # Run ESLint
+npm run format   # Run Prettier
+```
 
 ## Project-Specific Instructions
 
 <!-- Add project-specific notes here as the project develops -->
-
