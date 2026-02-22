@@ -39,7 +39,7 @@ if [ -f "package.json" ]; then
 fi
 
 # Initialize shadcn/ui if not already initialized
-if [ ! -d "web/components/ui" ] && [ -f "components.json" ]; then
+if [ ! -d "components/ui" ] && [ -f "components.json" ]; then
     echo "Initializing shadcn/ui..."
     case "$PM" in
         pnpm) pnpm dlx shadcn@latest add button --yes ;;
