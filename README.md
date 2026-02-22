@@ -67,7 +67,7 @@ Each session makes incremental progress:
 
 ```bash
 # 1. Initialize tracking files
-./agent-harness/scripts/init-project.sh "Your project description" "Project Name"
+./agent-harness/scripts/init-project.sh "Project Name" ["Optional description"]
 
 # 2. Point your AI agent to AGENTS.md
 # The agent will read instructions and begin scaffolding
