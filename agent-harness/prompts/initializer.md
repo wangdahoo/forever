@@ -44,7 +44,7 @@ Create a complete, production-ready Next.js + shadcn/ui project scaffolding with
 
 ```bash
 # Create Next.js project in current directory (without src)
-pnpm dlx create-next-app@latest web --typescript --tailwind --eslint --app --no-src-dir --import-alias "@/*"
+pnpm dlx create-next-app@latest web --typescript --tailwind --eslint --app --no-src-dir --use-pnpm --import-alias "@/*"
 
 ### 2. Install Core Dependencies
 
