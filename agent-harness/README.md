@@ -56,8 +56,8 @@ Each session makes incremental progress:
 # 1. Copy agent-harness to your project
 cp -r agent-harness /path/to/your-project/
 
-# 2. Initialize tracking files (pnpm is default, also supports npm and yarn)
-./agent-harness/scripts/init-project.sh "Project Name" "Optional description" pnpm
+# 2. Initialize tracking files
+./agent-harness/scripts/init-project.sh "Project Name" "Optional description"
 
 # 3. Point your AI agent to AGENTS.md
 # The agent will read instructions and begin working
@@ -79,8 +79,7 @@ agent-harness/
 │   └── coder.md           # Coding Agent prompt (implementation)
 ├── templates/
 │   ├── features.json      # Template for feature tracking
-│   ├── progress.md        # Template for progress log
-│   └── init.sh            # Template for setup script
+│   └── progress.md        # Template for progress log
 └── scripts/
     ├── init-project.sh    # Initialize tracking files
     └── status.sh          # Show current project status
@@ -93,8 +92,7 @@ After initialization, these files are created in your project root:
 ```
 ├── AGENTS.md              # Main instructions for AI agents
 ├── features.json          # Sprints and features with status
-├── progress.md            # Session-by-session progress log
-└── init.sh                # Development environment setup
+└── progress.md            # Session-by-session progress log
 ```
 
 ## Configuration
@@ -102,7 +100,6 @@ After initialization, these files are created in your project root:
 The framework is configured via `features.json` and `AGENTS.md` in your project root:
 
 **features.json:**
-- **package_manager**: npm, pnpm (default), or yarn
 - **tech_stack**: Array of technologies used
 
 **AGENTS.md:**

@@ -1,41 +1,25 @@
 #!/bin/bash
-# Initialize a new agent project
-# Usage: ./init-project.sh <project-name> ["project description"] [package-manager]
-# package-manager: npm (default), pnpm, or yarn
+# Initialize agent-harness tracking files for a project
+# Usage: ./init-project.sh <project-name> ["project description"]
 
 set -e
 
 PROJECT_NAME="${1:-}"
 PROJECT_DESCRIPTION="${2:-}"
-PACKAGE_MANAGER="${3:-pnpm}"
 
 if [ -z "$PROJECT_NAME" ]; then
-    echo "Usage: ./init-project.sh <project-name> [\"project description\"] [package-manager]"
+    echo "Usage: ./init-project.sh <project-name> [\"project description\"]"
     echo ""
-    echo "Arguments:"
-    echo "  project-name     Required. Name of the project"
-    echo "  description      Optional. Project description"
-    echo "  package-manager  Optional. npm, pnpm (default), or yarn"
-    echo ""
-    echo "This creates the initial project tracking files."
-    echo "Then run Sprint Agent to define features."
-    exit 1
-fi
-
-if [[ ! "$PACKAGE_MANAGER" =~ ^(npm|pnpm|yarn)$ ]]; then
-    echo "Error: package-manager must be npm, pnpm, or yarn"
+    echo "This creates features.json and progress.md for agent tracking."
     exit 1
 fi
 
 DESCRIPTION="${PROJECT_DESCRIPTION:-$PROJECT_NAME project}"
 
-echo "=== Initializing Agent Project ==="
-echo "Name: $PROJECT_NAME"
-echo "Description: $DESCRIPTION"
-echo "Package Manager: $PACKAGE_MANAGER"
+echo "=== Initializing Agent Harness ==="
+echo "Project: $PROJECT_NAME"
 echo ""
 
-# Copy templates
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TEMPLATES_DIR="$SCRIPT_DIR/../templates"
 
@@ -49,30 +33,17 @@ if [ ! -f "progress.md" ]; then
     cp "$TEMPLATES_DIR/progress.md" .
 fi
 
-if [ ! -f "init.sh" ]; then
-    echo "Creating init.sh..."
-    cp "$TEMPLATES_DIR/init.sh" .
-    chmod +x init.sh
-fi
-
-# Update features.json with project info
 if command -v jq &> /dev/null; then
     tmp=$(mktemp)
     jq --arg name "$PROJECT_NAME" \
        --arg desc "$DESCRIPTION" \
-       --arg pm "$PACKAGE_MANAGER" \
        --arg date "$(date -I)" \
        '.project.name = $name | 
         .project.description = $desc |
-        .project.package_manager = $pm |
         .project.created_at = $date |
         .metadata.last_updated = $date' \
        features.json > "$tmp" && mv "$tmp" features.json
 fi
 
 echo ""
-echo "=== Project Tracking Files Created ==="
-echo ""
-echo "Next steps:"
-echo "  1. Run Sprint Agent to define feature list"
-echo "  2. Start Coding Agent sessions to implement features"
+echo "Done. Next: Run Sprint Agent to define features."
