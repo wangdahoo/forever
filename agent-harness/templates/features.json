@@ -2,6 +2,7 @@
   "project": {
     "name": "Project Name",
     "description": "Brief project description",
+    "package_manager": "pnpm",
     "tech_stack": ["next.js", "shadcn/ui", "typescript", "tailwind", "next-intl", "next-themes"],
     "created_at": ""
   },

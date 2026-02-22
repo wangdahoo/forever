@@ -68,8 +68,8 @@ Each session makes incremental progress:
 # 1. Copy agent-harness to your project
 cp -r agent-harness /path/to/your-project/
 
-# 2. Initialize tracking files
-./agent-harness/scripts/init-project.sh "Project Name" ["Optional description"]
+# 2. Initialize tracking files (pnpm is default, also supports npm and yarn)
+./agent-harness/scripts/init-project.sh "Project Name" "Optional description" pnpm
 
 # 3. Point your AI agent to AGENTS.md
 # The agent will read instructions and begin scaffolding
@@ -112,8 +112,13 @@ After initialization, these files are created in your project root:
 
 ## Configuration
 
-The framework is configured via `AGENTS.md` in your project root. Key sections:
+The framework is configured via `features.json` and `AGENTS.md` in your project root:
 
+**features.json:**
+- **package_manager**: npm, pnpm (default), or yarn
+- **tech_stack**: Array of technologies used
+
+**AGENTS.md:**
 - **Tech Stack**: Define your preferred technologies
 - **Commands**: Customize build/dev/test commands
 - **Project-Specific Instructions**: Add domain-specific notes

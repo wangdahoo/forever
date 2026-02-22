@@ -1,17 +1,29 @@
 #!/bin/bash
 # Initialize a new agent project
-# Usage: ./init-project.sh <project-name> ["project description"]
+# Usage: ./init-project.sh <project-name> ["project description"] [package-manager]
+# package-manager: npm (default), pnpm, or yarn
 
 set -e
 
 PROJECT_NAME="${1:-}"
 PROJECT_DESCRIPTION="${2:-}"
+PACKAGE_MANAGER="${3:-pnpm}"
 
 if [ -z "$PROJECT_NAME" ]; then
-    echo "Usage: ./init-project.sh <project-name> [\"project description\"]"
+    echo "Usage: ./init-project.sh <project-name> [\"project description\"] [package-manager]"
+    echo ""
+    echo "Arguments:"
+    echo "  project-name     Required. Name of the project"
+    echo "  description      Optional. Project description"
+    echo "  package-manager  Optional. npm, pnpm (default), or yarn"
     echo ""
     echo "This creates the initial project tracking files."
     echo "Then read agent-harness/prompts/initializer.md for scaffolding instructions."
+    exit 1
+fi
+
+if [[ ! "$PACKAGE_MANAGER" =~ ^(npm|pnpm|yarn)$ ]]; then
+    echo "Error: package-manager must be npm, pnpm, or yarn"
     exit 1
 fi
 
@@ -20,6 +32,7 @@ DESCRIPTION="${PROJECT_DESCRIPTION:-$PROJECT_NAME project}"
 echo "=== Initializing Agent Project ==="
 echo "Name: $PROJECT_NAME"
 echo "Description: $DESCRIPTION"
+echo "Package Manager: $PACKAGE_MANAGER"
 echo ""
 
 # Copy templates
@@ -47,9 +60,11 @@ if command -v jq &> /dev/null; then
     tmp=$(mktemp)
     jq --arg name "$PROJECT_NAME" \
        --arg desc "$DESCRIPTION" \
+       --arg pm "$PACKAGE_MANAGER" \
        --arg date "$(date -I)" \
        '.project.name = $name | 
         .project.description = $desc |
+        .project.package_manager = $pm |
         .project.created_at = $date |
         .metadata.last_updated = $date' \
        features.json > "$tmp" && mv "$tmp" features.json
