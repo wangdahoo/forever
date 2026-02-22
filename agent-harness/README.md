@@ -1,4 +1,4 @@
-# Forever
+# Agent Harness
 
 > A framework for long-running AI agents that work effectively across multiple context windows.
 
@@ -18,11 +18,10 @@ Three specialized agents working together:
 
 ### Initializer Agent (Project Scaffolding)
 Sets up the foundational environment (one-time):
-- Next.js 16 + shadcn/ui project scaffolding
-- i18n (next-intl) with en/zh support
-- Dark/Light theme (next-themes)
-- Cloudflare Pages deployment config
-- Code quality tools (ESLint, Prettier, Commitlint, lint-staged, Husky)
+- Project scaffolding based on templates
+- Code quality tools configuration
+- Deployment setup
+- Initial tracking files
 
 ### Sprint Agent (Feature Planning)
 Translates requirements into actionable features:
@@ -66,52 +65,58 @@ Each session makes incremental progress:
 ## Quick Start
 
 ```bash
-# 1. Initialize tracking files
+# 1. Copy agent-harness to your project
+cp -r agent-harness /path/to/your-project/
+
+# 2. Initialize tracking files
 ./agent-harness/scripts/init-project.sh "Project Name" ["Optional description"]
 
-# 2. Point your AI agent to AGENTS.md
+# 3. Point your AI agent to AGENTS.md
 # The agent will read instructions and begin scaffolding
 
-# 3. After scaffolding, run Sprint Agent with your requirements
+# 4. After scaffolding, run Sprint Agent with your requirements
 # Example: "Add user authentication with email and social login"
 
-# 4. Check status anytime
+# 5. Check status anytime
 ./agent-harness/scripts/status.sh
 ```
-
-## Tech Stack
-
-| Layer | Technology |
-|-------|------------|
-| Framework | Next.js 16 (App Router, SSR) |
-| UI | shadcn/ui + Tailwind CSS |
-| i18n | next-intl (en/zh) |
-| Theme | next-themes (dark/light) |
-| Deployment | Cloudflare Pages |
-| Code Quality | ESLint, Prettier, Commitlint, lint-staged, Husky |
 
 ## Framework Structure
 
 ```
-.
+agent-harness/
+├── README.md              # This file - framework documentation
+├── prompts/
+│   ├── initializer.md     # Initializer Agent prompt (scaffolding)
+│   ├── sprint.md          # Sprint Agent prompt (planning)
+│   └── coder.md           # Coding Agent prompt (implementation)
+├── templates/
+│   ├── features.json      # Template for feature tracking
+│   ├── progress.md        # Template for progress log
+│   └── init.sh            # Template for setup script
+└── scripts/
+    ├── init-project.sh    # Initialize tracking files
+    └── status.sh          # Show current project status
+```
+
+## Generated Project Files
+
+After initialization, these files are created in your project root:
+
+```
 ├── AGENTS.md              # Main instructions for AI agents
 ├── features.json          # Sprints and features with status
 ├── progress.md            # Session-by-session progress log
-├── init.sh                # Development environment setup
-│
-└── agent-harness/
-    ├── prompts/
-    │   ├── initializer.md # Initializer Agent prompt (scaffolding)
-    │   ├── sprint.md      # Sprint Agent prompt (planning)
-    │   └── coder.md       # Coding Agent prompt (implementation)
-    ├── templates/
-    │   ├── features.json  # Template for feature tracking
-    │   ├── progress.md    # Template for progress log
-    │   └── init.sh        # Template for setup script
-    └── scripts/
-        ├── init-project.sh # Initialize tracking files
-        └── status.sh       # Show current project status
+└── init.sh                # Development environment setup
 ```
+
+## Configuration
+
+The framework is configured via `AGENTS.md` in your project root. Key sections:
+
+- **Tech Stack**: Define your preferred technologies
+- **Commands**: Customize build/dev/test commands
+- **Project-Specific Instructions**: Add domain-specific notes
 
 ## Key Principles
 
@@ -120,8 +125,6 @@ Each session makes incremental progress:
 3. **End-to-End Testing** - Verify as a user would
 4. **Frequent Commits** - Enable easy rollback
 5. **Documentation** - Future sessions need context
-6. **Use Translations** - All user-facing text via i18n
-7. **Theme Aware** - Test both dark and light modes
 
 ## Feature Status Lifecycle
 
@@ -151,15 +154,6 @@ The agent will:
 2. Follow the protocol for that role
 3. Make incremental, tested progress
 4. Document everything for the next session
-
-## Commands
-
-```bash
-npm run dev      # Start development server
-npm run build    # Production build
-npm run lint     # Run ESLint
-npm run format   # Run Prettier
-```
 
 ## Git Commit Format
 
