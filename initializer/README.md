@@ -36,7 +36,7 @@ Save the user input as `<PROJECT_NAME>` for all subsequent steps.
 | Components | shadcn/ui |
 | i18n | next-intl (en/zh) |
 | Theme | next-themes (dark/light) |
-| Deployment | Cloudflare Pages |
+| Deployment | Cloudflare Workers |
 | Code Quality | ESLint, Prettier, Commitlint, lint-staged, Husky |
 
 ---
@@ -119,8 +119,10 @@ Ensure `components.json` is configured correctly:
 │   ├── en.json
 │   └── zh.json
 ├── public/
-├── middleware.ts
+├── proxy.ts
 ├── next.config.ts
+├── open-next.config.ts
+├── wrangler.jsonc
 ├── tailwind.config.ts
 ├── tsconfig.json
 ├── features.json
@@ -187,7 +189,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
 }
 ```
 
-#### `middleware.ts` (root)
+#### `proxy.ts` (root)
 
 ```typescript
 import createMiddleware from 'next-intl/middleware'
@@ -322,18 +324,55 @@ echo "pnpm commitlint --edit \$1" > .husky/commit-msg
 
 ---
 
-## Step 7: Cloudflare Deployment
+## Step 7: Cloudflare Workers Deployment
+
+### 7.1 Install Dependencies
 
 ```bash
-pnpm add -D @cloudflare/next-on-pages
+pnpm add @opennextjs/cloudflare
+pnpm add -D wrangler
 ```
 
-#### `wrangler.toml`
+### 7.2 Create Wrangler Configuration
 
-```toml
-name = "<PROJECT_NAME>"
-compatibility_date = "2024-01-01"
-pages_build_output_dir = ".vercel/output/static"
+#### `wrangler.jsonc`
+
+```jsonc
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "<PROJECT_NAME>",
+  "compatibility_date": "2026-02-22",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  }
+}
+```
+
+### 7.3 Create OpenNext Configuration
+
+#### `open-next.config.ts`
+
+```typescript
+import { defineCloudflareConfig } from '@opennextjs/cloudflare'
+
+export default defineCloudflareConfig()
+```
+
+### 7.4 Update `package.json` Scripts
+
+Add the following scripts:
+
+```json
+{
+  "scripts": {
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+  }
+}
 ```
 
 ---
