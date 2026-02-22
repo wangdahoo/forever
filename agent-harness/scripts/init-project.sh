@@ -1,23 +1,25 @@
 #!/bin/bash
 # Initialize a new agent project
-# Usage: ./init-project.sh "Project description" [project-name]
+# Usage: ./init-project.sh <project-name> ["project description"]
 
 set -e
 
-PROJECT_DESCRIPTION="${1:-}"
-PROJECT_NAME="${2:-My Project}"
+PROJECT_NAME="${1:-}"
+PROJECT_DESCRIPTION="${2:-}"
 
-if [ -z "$PROJECT_DESCRIPTION" ]; then
-    echo "Usage: ./init-project.sh \"Project description\" [project-name]"
+if [ -z "$PROJECT_NAME" ]; then
+    echo "Usage: ./init-project.sh <project-name> [\"project description\"]"
     echo ""
     echo "This creates the initial project tracking files."
     echo "Then read agent-harness/prompts/initializer.md for scaffolding instructions."
     exit 1
 fi
 
+DESCRIPTION="${PROJECT_DESCRIPTION:-$PROJECT_NAME project}"
+
 echo "=== Initializing Agent Project ==="
 echo "Name: $PROJECT_NAME"
-echo "Description: $PROJECT_DESCRIPTION"
+echo "Description: $DESCRIPTION"
 echo ""
 
 # Copy templates
@@ -44,7 +46,7 @@ fi
 if command -v jq &> /dev/null; then
     tmp=$(mktemp)
     jq --arg name "$PROJECT_NAME" \
-       --arg desc "$PROJECT_DESCRIPTION" \
+       --arg desc "$DESCRIPTION" \
        --arg date "$(date -I)" \
        '.project.name = $name | 
         .project.description = $desc |
