@@ -18,7 +18,7 @@ if [ -z "$PROJECT_NAME" ]; then
     echo "  package-manager  Optional. npm, pnpm (default), or yarn"
     echo ""
     echo "This creates the initial project tracking files."
-    echo "Then read agent-harness/prompts/initializer.md for scaffolding instructions."
+    echo "Then run Sprint Agent to define features."
     exit 1
 fi
 
@@ -74,7 +74,5 @@ echo ""
 echo "=== Project Tracking Files Created ==="
 echo ""
 echo "Next steps:"
-echo "  1. Read agent-harness/prompts/initializer.md"
-echo "  2. Follow the Initializer Agent instructions"
-echo "  3. Create Next.js project scaffolding"
-echo "  4. Run Sprint Agent to define features"
+echo "  1. Run Sprint Agent to define feature list"
+echo "  2. Start Coding Agent sessions to implement features"
