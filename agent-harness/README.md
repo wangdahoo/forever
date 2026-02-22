@@ -14,14 +14,7 @@ AI agents struggle with complex, long-running tasks because:
 
 ## The Solution
 
-Three specialized agents working together:
-
-### Initializer Agent (Project Scaffolding)
-Sets up the foundational environment (one-time):
-- Project scaffolding based on templates
-- Code quality tools configuration
-- Deployment setup
-- Initial tracking files
+Two specialized agents working together:
 
 ### Sprint Agent (Feature Planning)
 Translates requirements into actionable features:
@@ -41,11 +34,6 @@ Each session makes incremental progress:
 ## Workflow
 
 ```
-┌─────────────────┐
-│  Initializer    │  ──>  Project scaffolding (one-time)
-└────────┬────────┘
-         │
-         v
 ┌─────────────────┐
 │   Sprint Agent  │  <──  User provides requirements
 └────────┬────────┘
@@ -72,9 +60,9 @@ cp -r agent-harness /path/to/your-project/
 ./agent-harness/scripts/init-project.sh "Project Name" "Optional description" pnpm
 
 # 3. Point your AI agent to AGENTS.md
-# The agent will read instructions and begin scaffolding
+# The agent will read instructions and begin working
 
-# 4. After scaffolding, run Sprint Agent with your requirements
+# 4. Run Sprint Agent with your requirements
 # Example: "Add user authentication with email and social login"
 
 # 5. Check status anytime
@@ -87,7 +75,6 @@ cp -r agent-harness /path/to/your-project/
 agent-harness/
 ├── README.md              # This file - framework documentation
 ├── prompts/
-│   ├── initializer.md     # Initializer Agent prompt (scaffolding)
 │   ├── sprint.md          # Sprint Agent prompt (planning)
 │   └── coder.md           # Coding Agent prompt (implementation)
 ├── templates/
@@ -155,7 +142,7 @@ Please read AGENTS.md and follow the instructions.
 ```
 
 The agent will:
-1. Determine the appropriate role (Initializer/Sprint/Coding)
+1. Determine the appropriate role (Sprint/Coding)
 2. Follow the protocol for that role
 3. Make incremental, tested progress
 4. Document everything for the next session

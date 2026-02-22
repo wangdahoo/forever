@@ -6,18 +6,12 @@ This file provides instructions for AI agents working on this project across mul
 
 | Agent | Role | When Invoked |
 |-------|------|--------------|
-| **Initializer** | Project scaffolding | New project setup only |
 | **Sprint** | Feature planning | New sprint or requirement iteration |
 | **Coding** | Feature implementation | Each development session |
 
 ## Workflow
 
 ```
-┌─────────────────┐
-│  Initializer    │  ──>  Set up project scaffolding (one-time)
-└────────┬────────┘
-         │
-         v
 ┌─────────────────┐
 │   Sprint Agent  │  <──  User provides requirements
 └────────┬────────┘
@@ -36,19 +30,7 @@ This file provides instructions for AI agents working on this project across mul
 
 ## Quick Start
 
-### 1. Initial Setup (Initializer Agent)
-
-If `features.json` does not exist or project is empty:
-
-1. Read `agent-harness/prompts/initializer.md`
-2. Create Next.js + shadcn project scaffolding
-3. Configure i18n, theme, Cloudflare deployment
-4. Set up code quality tools (ESLint, Prettier, Commitlint, lint-staged)
-5. Create initial `features.json` (minimal, no features yet)
-6. Create `progress.md` with session 0
-7. Initial git commit
-
-### 2. Sprint Planning (Sprint Agent)
+### 1. Sprint Planning (Sprint Agent)
 
 When user provides new requirements:
 
@@ -58,7 +40,7 @@ When user provides new requirements:
 4. Add sprint to `features.json` with all features
 5. Update `progress.md` with sprint planning notes
 
-### 3. Development (Coding Agent)
+### 2. Development (Coding Agent)
 
 Each development session:
 
@@ -80,7 +62,6 @@ Each development session:
 |------|---------|-------------|
 | `features.json` | Sprints and feature list with status | Sprint creates, Coding updates status |
 | `progress.md` | Session-by-session progress log | Every agent at end of session |
-| `init.sh` | Development environment setup | Initializer creates |
 | `AGENTS.md` | This file - agent instructions | Rarely modified |
 
 ## Tech Stack
