@@ -67,7 +67,7 @@ Each development session:
    - Running `pwd` to confirm directory
    - Reading `progress.md` to understand recent work
    - Reading `git log --oneline -10`
-   - Running `npm run lint && npm run build`
+   - Running `pnpm lint && pnpm build`
 3. Pick **ONE** pending feature from current sprint
 4. Implement incrementally with frequent commits
 5. Test thoroughly before marking complete
@@ -132,10 +132,10 @@ Types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`, `style`
 ## Commands
 
 ```bash
-npm run dev      # Start development server
-npm run build    # Production build
-npm run lint     # Run ESLint
-npm run format   # Run Prettier
+pnpm dev      # Start development server
+pnpm build    # Production build
+pnpm lint     # Run ESLint
+pnpm format   # Run Prettier
 ```
 
 ## Project-Specific Instructions

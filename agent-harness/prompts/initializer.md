@@ -44,13 +44,13 @@ Create a complete, production-ready Next.js + shadcn/ui project scaffolding with
 
 ```bash
 # Create Next.js project in current directory (without src)
-npx create-next-app@latest web --typescript --tailwind --eslint --app --no-src-dir --import-alias "@/*"
+pnpm dlx create-next-app@latest web --typescript --tailwind --eslint --app --no-src-dir --import-alias "@/*"
 
 ### 2. Install Core Dependencies
 
 ```bash
 # UI Components - initialize with web directory
-npx shadcn@latest init -d
+pnpm dlx shadcn@latest init -d
 
 # Update components.json paths for web directory:
 # - "css": "web/app/globals.css"
@@ -58,15 +58,15 @@ npx shadcn@latest init -d
 # Keep aliases as @/components, @/lib/utils (tsconfig already maps @ to ./web)
 
 # Internationalization
-npm install next-intl
+pnpm add next-intl
 
 # Theme
-npm install next-themes
+pnpm add next-themes
 
 # Code Quality
-npm install -D prettier eslint-config-prettier eslint-plugin-prettier
-npm install -D @commitlint/cli @commitlint/config-conventional
-npm install -D lint-staged husky
+pnpm add -D prettier eslint-config-prettier eslint-plugin-prettier
+pnpm add -D @commitlint/cli @commitlint/config-conventional
+pnpm add -D lint-staged husky
 ```
 
 ### 3. Configure for `web/` Directory
@@ -156,9 +156,9 @@ module.exports = {
 ### 6. Set Up Git Hooks
 
 ```bash
-npx husky init
-echo "npx lint-staged" > .husky/pre-commit
-echo "npx commitlint --edit \$1" > .husky/commit-msg
+pnpm dlx husky init
+echo "pnpm lint-staged" > .husky/pre-commit
+echo "pnpm commitlint --edit \$1" > .husky/commit-msg
 ```
 
 ### 7. Create Cloudflare Configuration
@@ -239,9 +239,9 @@ After completing initialization:
 - Code quality tools configured
 
 ### Quick Start
-1. npm run dev     # Start development
-2. npm run build   # Production build
-3. npm run lint    # Run linting
+1. pnpm dev     # Start development
+2. pnpm build   # Production build
+3. pnpm lint    # Run linting
 
 ### Next Steps
 1. Run Sprint Agent to define feature list

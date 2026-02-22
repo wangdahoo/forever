@@ -28,9 +28,9 @@ Read `features.json` to see:
 ### 4. Verify Current State
 Run the appropriate commands to verify the project is working:
 ```bash
-npm run lint      # Check code quality
-npm run build     # Ensure build passes
-npm run dev       # Start development (if needed)
+pnpm lint      # Check code quality
+pnpm build     # Ensure build passes
+pnpm dev       # Start development (if needed)
 ```
 
 **If the application is broken**, fix existing issues before starting new work.
@@ -149,8 +149,8 @@ If you encounter any of these, stop and address them first:
 
 Before marking feature complete:
 - [ ] All acceptance criteria met
-- [ ] `npm run lint` passes
-- [ ] `npm run build` succeeds
+- [ ] `pnpm lint` passes
+- [ ] `pnpm build` succeeds
 - [ ] Manual testing completed
 - [ ] Responsive design verified
 - [ ] Theme compatibility checked
